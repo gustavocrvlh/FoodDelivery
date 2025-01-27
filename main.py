@@ -1,25 +1,5 @@
 import os
-
-def clear_terminal():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-def invalid_option():
-    clear_terminal()
-    print('Invalid option. Please try again.')
-    display_menu()
-
-def exit_app():
-    clear_terminal()
-    print('Food Delivery app is closing...\n')
-
-def display_page_info(page_name):
-    clear_terminal()
-    print(f'{page_name}\n')
-
-def return_to_menu():
-    input('Press any key to return to the menu')
-    clear_terminal()
-    display_menu()
+from utils import clear_terminal, invalid_option, exit_app, display_page_info, return_to_menu
 
 restaurants = ['Pará Lanches', 'Pizzaria do Cássio']
 
