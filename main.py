@@ -41,6 +41,7 @@ def activate_restaurant():
     for restaurant in restaurants:
         if restaurant['name'].lower() == restaurant_name.lower():
             restaurant['status'] = not restaurant['status']
+            
             if restaurant['status']:
                 print(f'{restaurant_name} has been activated successfully.\n')
             else:
