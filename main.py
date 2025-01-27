@@ -1,19 +1,53 @@
 import os
-from utils import clear_terminal, invalid_option, exit_app, display_page_info, return_to_menu
+from utils import clear_terminal, exit_app, display_page_info
 
-restaurants = ['Pará Lanches', 'Pizzaria do Cássio']
+restaurants = [
+    {
+        'name': 'Pará Lanches',
+        'type': 'Fast food',
+        'status': True
+    },
+    {
+        'name': 'Pizzaria do Cássio',
+        'type': 'Pizzeria',
+        'status': False
+    }
+]
 
 def register_restaurant():
     display_page_info('REGISTER NEW RESTAURANT')
+
     restaurant_name = input('Enter restaurant name: ')
-    restaurants.append(restaurant_name)
+    restaurant_type = input('Enter restaurant type: ')
+    print('\nLoading...\n')
+
+    restaurant_data = {'name': restaurant_name, 'type': restaurant_type, 'status': False}
+    restaurants.append(restaurant_data)
+
     print(f'{restaurant_name} has been registered successfully.\n')
     return_to_menu()
 
 def list_restaurants():
     display_page_info('LIST OF ALL RESTAURANTS')
-    for index, restaurant in enumerate(restaurants, start=1):
-        print(f'{index}. {restaurant}\n')
+    list_all_restaurants()    
+    return_to_menu()
+
+def activate_restaurant():
+    display_page_info('ACTIVATE RESTAURANT')
+    list_all_restaurants()
+    restaurant_name = input('Enter the name of the restaurant you want to activate/deactivate: ')
+    print('\nLoading...\n')
+
+    for restaurant in restaurants:
+        if restaurant['name'].lower() == restaurant_name.lower():
+            restaurant['status'] = not restaurant['status']
+            if restaurant['status']:
+                print(f'{restaurant_name} has been activated successfully.\n')
+            else:
+                print(f'{restaurant_name} has been deactivated successfully.\n')
+            return_to_menu()
+
+    print(f'{restaurant_name} was not found.\n')
     return_to_menu()
 
 def display_menu():
@@ -21,7 +55,7 @@ def display_menu():
 
     print('1. Register restaurant')
     print('2. List restaurants')
-    print('3. Activate restaurant')
+    print('3. Activate/Deactivate restaurant')
     print('4. Exit')
 
     try:
@@ -35,7 +69,7 @@ def display_menu():
                 list_restaurants()
 
             case 3:
-                print('Activating restaurant...')
+                activate_restaurant()
 
             case 4:
                 exit_app()
@@ -44,6 +78,20 @@ def display_menu():
                 invalid_option()
     except:
         invalid_option()
+
+def return_to_menu():
+    input('\nPress any key to return to the menu')
+    clear_terminal()
+    display_menu()
+
+def list_all_restaurants():
+    for restaurant in restaurants:
+        print(f'Name: {restaurant["name"].ljust(20)} | Type: {restaurant["type"].ljust(20)} | Status: {"Active" if restaurant["status"] else "Inactive"}')
+
+def invalid_option():
+    clear_terminal()
+    print('Invalid option. Please try again.\n')
+    display_menu()
 
 def main():
     clear_terminal()
